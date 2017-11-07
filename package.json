@@ -1,0 +1,22 @@
+{
+  "name": "selenium-assistant-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test:server": "http-server ./test/fixtures -s",
+    "test:selenium": "wait-on http://localhost:8080 && node index.js",
+    "test": "npm-run-all --parallel test:*"
+  },
+  "devDependencies": {
+    "chalk": "^2.3.0",
+    "chromedriver": "2.33.2",
+    "expect": "^1.20.2",
+    "geckodriver": "1.9.0",
+    "http-server": "0.10.0",
+    "mocha": "4.0.1",
+    "mz": "2.7.0",
+    "npm-run-all": "4.1.1",
+    "selenium-assistant": "5.2.0",
+    "wait-on": "2.0.2"
+  }
+}
