@@ -1,33 +1,16 @@
-const expect = require('expect');
+const {setup, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 const {Key, By} = require('selenium-webdriver');
-
-// Expected test results
-const FOCUS_RING_STYLE = 'rgb(255, 0, 0)';
-
-let body;
-let element;
 
 describe('<button>', function() {
   beforeEach(async function() {
-    await this.driver.get(`http://localhost:8080/button.html`);
-    body = await this.driver.findElement(By.css('body'));
-    element = await this.driver.findElement(By.css('#el'));
-    await body.click();
+    await setup(this.driver, 'button');
   });
 
   it('should match :-moz-focusring on keyboard focus', async function() {
-    await body.sendKeys(Key.TAB);
-    let actual = await this.driver.executeScript(`
-      return window.getComputedStyle(document.querySelector('#el')).outlineColor
-    `);
-    expect(actual).toEqual(FOCUS_RING_STYLE);
+    await matchesKeyboard(this.driver);
   });
 
   it('should NOT match :-moz-focusring on mouse focus', async function() {
-    await element.click();
-    let actual = await this.driver.executeScript(`
-      return window.getComputedStyle(document.querySelector('#el')).outlineColor
-    `);
-    expect(actual).toNotEqual(FOCUS_RING_STYLE);
+    await matchesMouse(this.driver, false);
   });
 });
