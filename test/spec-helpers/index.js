@@ -5,7 +5,7 @@ const expect = require('expect');
 const FOCUS_RING_STYLE = 'rgb(255, 0, 0)';
 
 async function setup(driver, fixture) {
-  await driver.get(`http://localhost:8080/${fixture}.html`);
+  await driver.get(`http://localhost:8080/${fixture}`);
   let body = await driver.findElement(By.css('body'));
   await body.click();
 }
@@ -37,4 +37,9 @@ async function matchesMouse(driver, shouldMatch = true) {
   }
 }
 
-module.exports = { setup, matchesKeyboard, matchesMouse };
+module.exports = {
+  FOCUS_RING_STYLE,
+  setup,
+  matchesKeyboard,
+  matchesMouse
+};

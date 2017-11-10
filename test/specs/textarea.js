@@ -1,15 +1,15 @@
 const {setup, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('<button>', function() {
+describe('<textarea>', function() {
   beforeEach(async function() {
-    await setup(this.driver, 'button.html');
+    await setup(this.driver, 'textarea.html');
   });
 
   it('should match :-moz-focusring on keyboard focus', async function() {
     await matchesKeyboard(this.driver);
   });
 
-  it('should NOT match :-moz-focusring on mouse focus', async function() {
-    await matchesMouse(this.driver, false);
+  it('should match :-moz-focusring on mouse focus', async function() {
+    await matchesMouse(this.driver);
   });
 });

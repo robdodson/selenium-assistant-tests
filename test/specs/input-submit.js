@@ -1,8 +1,8 @@
 const {setup, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('<button>', function() {
+describe('<input type="submit">', function() {
   beforeEach(async function() {
-    await setup(this.driver, 'button.html');
+    await setup(this.driver, 'input-submit.html');
   });
 
   it('should match :-moz-focusring on keyboard focus', async function() {
