@@ -1,8 +1,8 @@
 const {setup, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('<select size="3">', function() {
+describe('<select multiple>', function() {
   beforeEach(async function() {
-    await setup(this.driver, 'select-size.html');
+    await setup(this.driver, 'select-multiple.html');
   });
 
   it('should match :-moz-focusring on keyboard focus', async function() {

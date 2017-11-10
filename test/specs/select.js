@@ -1,6 +1,6 @@
 const {setup, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('select', function() {
+describe('<select>', function() {
   beforeEach(async function() {
     await setup(this.driver, 'select.html');
   });

@@ -1,6 +1,6 @@
 const {setup, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('tabindex=-1', function() {
+describe('[tabindex=-1]', function() {
   beforeEach(async function() {
     // Note: For focus to enter the page properly with this fixture I had
     // to make sure the div had some width/height.

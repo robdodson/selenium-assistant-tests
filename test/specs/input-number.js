@@ -1,15 +1,15 @@
 const {setup, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('<select size="3">', function() {
+describe('<input type="number">', function() {
   beforeEach(async function() {
-    await setup(this.driver, 'select-size.html');
+    await setup(this.driver, 'input-number.html');
   });
 
   it('should match :-moz-focusring on keyboard focus', async function() {
     await matchesKeyboard(this.driver);
   });
 
-  it.skip('should NOT match :-moz-focusring on mouse focus', async function() {
-    await matchesMouse(this.driver, false);
+  it('should match :-moz-focusring on mouse focus', async function() {
+    await matchesMouse(this.driver);
   });
 });
