@@ -27,7 +27,7 @@ const Mocha = require('mocha');
  */
 function browserFilter(browser) {
   return browser.getReleaseName() === 'stable'
-    && ['firefox'].includes(browser.getId());
+    && ['chrome'].includes(browser.getId());
 }
 
 /**
