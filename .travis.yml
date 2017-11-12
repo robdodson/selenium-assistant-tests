@@ -1,4 +1,6 @@
 os: osx
+addons:
+  firefox: "56.0.2"
 language: node_js
 node_js:
   - "8"
