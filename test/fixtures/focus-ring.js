@@ -209,9 +209,6 @@ function init() {
     var type = el.type;
     var tagName = el.tagName;
 
-    if (tagName == 'BUTTON' && inputTypesWhitelist[type] && !el.readonly)
-      return true;
-
     if (tagName == 'INPUT' && inputTypesWhitelist[type] && !el.readonly)
       return true;
 

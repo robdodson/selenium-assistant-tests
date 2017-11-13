@@ -5,14 +5,14 @@ describe('<input type="range">', function() {
     // Range inputs are super weird. Probably need to explore styling
     // the internal pseudo elements.
     // https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
-    await setup(this.driver, 'input-range.html');
+    fixture('input-range.html');
   });
 
   it('should match :-moz-focusring on keyboard focus', async function() {
-    await matchesKeyboard(this.driver);
+    await matchesKeyboard();
   });
 
   it.skip('should NOT match :-moz-focusring on mouse focus', async function() {
-    await matchesMouse(this.driver, false);
+    await matchesMouse(false);
   });
 });

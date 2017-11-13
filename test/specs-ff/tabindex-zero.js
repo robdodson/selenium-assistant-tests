@@ -5,14 +5,14 @@ describe('[tabindex=0]', function() {
     // Note: For focus to enter the page properly with this fixture I had
     // to make sure the div had some width/height.
     // This seems like a geckodriver bug.
-    await setup(this.driver, 'tabindex-zero.html');
+    fixture('tabindex-zero.html');
   });
 
   it('should match :-moz-focusring on keyboard focus', async function() {
-    await matchesKeyboard(this.driver);
+    await matchesKeyboard();
   });
 
   it.skip('should NOT match :-moz-focusring on mouse focus', async function() {
-    await matchesMouse(this.driver, false);
+    await matchesMouse(false);
   });
 });

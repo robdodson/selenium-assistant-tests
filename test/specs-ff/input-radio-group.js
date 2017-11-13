@@ -4,7 +4,7 @@ const expect = require('expect');
 
 describe('<input type="radio"> group', function() {
   beforeEach(async function() {
-    await setup(this.driver, 'input-radio-group.html');
+    fixture('input-radio-group.html');
   });
 
   it('should match :-moz-focusring on keyboard arrow key focus', async function() {

@@ -1,15 +1,15 @@
-const {setup, matchesKeyboard, matchesMouse} = require('../spec-helpers');
+const {fixture, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
 describe('<button>', function() {
   beforeEach(async function() {
-    await setup(this.driver, 'button.html');
+    await fixture('button.html');
   });
 
-  it('should apply .focus-ring on keyboard focus', async function() {
-    await matchesKeyboard(this.driver);
+  it('should match :focus-ring on keyboard focus', async function() {
+    await matchesKeyboard();
   });
 
-  it('should NOT apply .focus-ring on mouse focus', async function() {
-    await matchesMouse(this.driver, false);
+  it('should NOT match :focus-ring on mouse focus', async function() {
+    await matchesMouse(false);
   });
 });

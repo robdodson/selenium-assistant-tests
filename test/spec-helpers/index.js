@@ -1,16 +1,17 @@
 const {Key, By} = require('selenium-webdriver');
 const expect = require('expect');
+const driver = global.__driver;
 
 // Expected test results
 const FOCUS_RING_STYLE = 'rgb(255, 0, 0)';
 
-async function setup(driver, fixture) {
-  await driver.get(`http://localhost:8080/${fixture}`);
+async function fixture(file) {
+  await driver.get(`http://localhost:8080/${file}`);
   let body = await driver.findElement(By.css('body'));
   await body.click();
 }
 
-async function matchesKeyboard(driver, shouldMatch = true) {
+async function matchesKeyboard(shouldMatch = true) {
   let body = await driver.findElement(By.css('body'));
   let element = await driver.findElement(By.css('#el'));
   await body.sendKeys(Key.TAB);
@@ -24,7 +25,7 @@ async function matchesKeyboard(driver, shouldMatch = true) {
   }
 }
 
-async function matchesMouse(driver, shouldMatch = true) {
+async function matchesMouse(shouldMatch = true) {
   let element = await driver.findElement(By.css('#el'));
   await element.click();
   let actual = await driver.executeScript(`
@@ -39,7 +40,7 @@ async function matchesMouse(driver, shouldMatch = true) {
 
 module.exports = {
   FOCUS_RING_STYLE,
-  setup,
+  fixture,
   matchesKeyboard,
   matchesMouse
 };
