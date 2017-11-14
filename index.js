@@ -30,7 +30,7 @@ let didTestsFail = false;
  */
 function browserFilter(browser) {
   return browser.getReleaseName() === 'stable'
-    && ['chrome', 'firefox'].includes(browser.getId());
+    && ['firefox'].includes(browser.getId());
 }
 
 /**
