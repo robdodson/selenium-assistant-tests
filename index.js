@@ -43,15 +43,6 @@ async function getMocha() {
   return mocha;
 }
 
-/**
- * `browserFilter` is used as an argument to `Array.prototype.filter` to filter
- * which browsers are used to run the tests.
- */
-function browserFilter(browser) {
-  return browser.getReleaseName() === 'stable'
-    && ['firefox', 'chrome'].includes(browser.getId());
-}
-
 async function runTests(browsers) {
   for (let browser of browsers) {
     const driver = await browser.getSeleniumDriver();
@@ -87,6 +78,15 @@ function runMocha(driver, mocha) {
       resolve();
     })
   });
+}
+
+/**
+ * `browserFilter` is used as an argument to `Array.prototype.filter` to filter
+ * which browsers are used to run the tests.
+ */
+function browserFilter(browser) {
+  return browser.getReleaseName() === 'stable'
+    && ['firefox', 'chrome'].includes(browser.getId());
 }
 
 /**
