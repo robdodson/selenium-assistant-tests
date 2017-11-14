@@ -23,42 +23,6 @@ const Mocha = require('mocha');
 const clearModule = require('clear-module');
 let didTestsFail = false;
 
-
-/**
- * `browserFilter` is used as an argument to `Array.prototype.filter` to filter
- * which browsers are used to run the tests.
- */
-function browserFilter(browser) {
-  return browser.getReleaseName() === 'stable'
-    && ['firefox', 'chrome'].includes(browser.getId());
-}
-
-/**
- * Return an array of WebDriver instances for the specified browsers.
- * WebDriver will initially try to return a ThenableWebDriverProxy but this
- * awaits the completion and returns the actual WebDriver instances.
- * @param {*} browsers 
- */
-async function getDriversForBrowsers(browsers) {
-  let drivers = [];
-  for (let browser of browsers) {
-    let driver = await browser.getSeleniumDriver();
-    // Stash a copy of the browser's name so we can log it
-    // during the tests
-    driver.__prettyName = browser.getPrettyName();
-    driver.manage().timeouts().setScriptTimeout(60000);
-    drivers.push(driver);
-  }
-  return drivers;
-}
-
-async function runTests(drivers) {
-  for (let driver of drivers) {
-    const mocha = await getMocha();
-    await runMocha(driver, mocha);
-  }
-}
-
 /**
  * Create a new instance of the Mocha test runner that has sourced
  * all the test files.
@@ -80,24 +44,46 @@ async function getMocha() {
 }
 
 /**
+ * `browserFilter` is used as an argument to `Array.prototype.filter` to filter
+ * which browsers are used to run the tests.
+ */
+function browserFilter(browser) {
+  return browser.getReleaseName() === 'stable'
+    && ['firefox', 'chrome'].includes(browser.getId());
+}
+
+async function runTests(browsers) {
+  for (let browser of browsers) {
+    const driver = await browser.getSeleniumDriver();
+    // Stash a copy of the browser's name so we can log it
+    // during the tests
+    driver.__prettyName = browser.getPrettyName();
+    // I know what you're thinking...
+    // But Mocha doesn't give me a good way to inject data into the runner so...
+    global.__driver = driver;
+    driver.manage().timeouts().setScriptTimeout(60000);
+    const mocha = await getMocha();
+    await runMocha(driver, mocha);
+  }
+}
+
+/**
  * Run Mocha tests for each WebDriver instance.
  * @param {*} driver 
  * @param {*} mocha 
  */
 function runMocha(driver, mocha) {
   return new Promise(function(resolve, reject) {
-    // I know what you're thinking...
-    // But Mocha doesn't give me a good way to inject data into the runner so...
-    global.__driver = driver;
     console.log(`Running tests in ${driver.__prettyName}`);
     mocha.run(function(failures) {
       // Set a global flag to indicate that some tests failed. This way
       // the process doesn't immediately bail on the promise rejection.
-      // Instead, we'll check this flag at the end of all the test runs
+      // Instead, we'll check this flag at the end of all the tests
       // and exit the process with a non-zero code.
       if (failures !== 0) {
         didTestsFail = true;
       }
+      seleniumAssistant.killWebDriver(driver);
       resolve();
     })
   });
@@ -109,12 +95,7 @@ function runMocha(driver, mocha) {
  */
 async function main() {
   let browsers = seleniumAssistant.getLocalBrowsers().filter(browserFilter);
-  let drivers = await getDriversForBrowsers(browsers);
-  await runTests(drivers);
-  console.log('Killing all browser instances...');
-  await Promise.all(
-    drivers.map(driver => seleniumAssistant.killWebDriver(driver))
-  );
+  await runTests(browsers);
   console.log('Done.');
 }
 
