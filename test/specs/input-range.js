@@ -1,8 +1,11 @@
 const {fixture, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('<button>', function() {
+describe('<input type="range">', function() {
   beforeEach(async function() {
-    await fixture('button.html');
+    // Range inputs are super weird. Probably need to explore styling
+    // the internal pseudo elements.
+    // https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+    fixture('input-range.html');
   });
 
   it('should apply .focus-ring on keyboard focus', async function() {

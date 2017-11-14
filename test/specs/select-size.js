@@ -1,8 +1,8 @@
 const {fixture, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('<button>', function() {
+describe('<select size="3">', function() {
   beforeEach(async function() {
-    await fixture('button.html');
+    fixture('select-size.html');
   });
 
   it('should apply .focus-ring on keyboard focus', async function() {

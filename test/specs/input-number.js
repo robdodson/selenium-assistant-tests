@@ -1,15 +1,15 @@
 const {fixture, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
-describe('<button>', function() {
+describe('<input type="number">', function() {
   beforeEach(async function() {
-    await fixture('button.html');
+    fixture('input-number.html');
   });
 
   it('should apply .focus-ring on keyboard focus', async function() {
     await matchesKeyboard();
   });
 
-  it('should NOT apply .focus-ring on mouse focus', async function() {
-    await matchesMouse(false);
+  it('should apply .focus-ring on mouse focus', async function() {
+    await matchesMouse();
   });
 });
