@@ -30,7 +30,7 @@ let didTestsFail = false;
  */
 function browserFilter(browser) {
   return browser.getReleaseName() === 'stable'
-    && ['firefox'].includes(browser.getId());
+    && ['firefox', 'chrome'].includes(browser.getId());
 }
 
 /**
@@ -110,7 +110,7 @@ function runMocha(driver, mocha) {
 async function main() {
   let browsers = seleniumAssistant.getLocalBrowsers().filter(browserFilter);
   let drivers = await getDriversForBrowsers(browsers);
-  let failures = await runTests(drivers);
+  await runTests(drivers);
   console.log('Killing all browser instances...');
   await Promise.all(
     drivers.map(driver => seleniumAssistant.killWebDriver(driver))

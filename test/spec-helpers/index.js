@@ -5,40 +5,40 @@ const driver = global.__driver;
 // Expected test results
 const FOCUS_RING_STYLE = 'rgb(255, 0, 0)';
 
-function findElement(selector) {
-  return new Promise(function(resolve, reject) {
-    let retries = 3;
-    
-    function querySelector(selector) {
-      return driver.findElement(By.css(selector));
-    }
+async function doAThing(cb) {
+  let retries = 3;
+  let error;
 
-    querySelector(selector)
-      .then(function(element) {
-        resolve(element);
-      })
-      .catch(function(err) {
-        if (retries !== 0) {
-          console.log('Retrying. Retries left', retries);
-          retries = retries - 1;
-          findElement(selector);
-        } else {
-          console.log('Out of retries!');
-          throw err;
-        }
-      });
-  });
+  while(retries > 0) {
+    try {
+      await cb();
+      return;
+    } catch(err) {
+      console.log('Oh No! There was an error!');
+      retries = retries - 1;
+      if (retries > 0) {
+        console.log('Retrying...');
+      }
+      error = err;
+    }
+  }
+
+  throw error;
 }
 
 async function fixture(file) {
   await driver.get(`http://localhost:8080/${file}`);
-  let body = await driver.findElement(By.css('body'));
-  await body.click();
+  await doAThing(async function() {
+    let body = await driver.findElement(By.css('body'));
+    await body.click();
+  });
 }
 
 async function matchesKeyboard(shouldMatch = true) {
-  let body = await driver.findElement(By.css('body'));
-  await body.sendKeys(Key.TAB);
+  await doAThing(async function() {
+    let body = await driver.findElement(By.css('body'));
+    await body.sendKeys(Key.TAB);
+  });
   let actual = await driver.executeScript(`
     return window.getComputedStyle(document.querySelector('#el')).outlineColor
   `);
@@ -50,8 +50,10 @@ async function matchesKeyboard(shouldMatch = true) {
 }
 
 async function matchesMouse(shouldMatch = true) {
-  let element = await driver.findElement(By.css('#el'));
-  await element.click();
+  await doAThing(async function() {
+    let element = await driver.findElement(By.css('#el'));
+    await element.click();
+  });
   let actual = await driver.executeScript(`
     return window.getComputedStyle(document.querySelector('#el')).outlineColor
   `);

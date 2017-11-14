@@ -1,15 +1,15 @@
 const {fixture, matchesKeyboard, matchesMouse} = require('../spec-helpers');
 
 describe('<input type="date">', function() {
-  beforeEach(async function() {
-    fixture('input-date.html');
+  beforeEach(function() {
+    return fixture('input-date.html');
   });
 
-  it('should apply .focus-ring on keyboard focus', async function() {
-    await matchesKeyboard();
+  it('should apply .focus-ring on keyboard focus', function() {
+    return matchesKeyboard();
   });
 
-  it('should apply .focus-ring on mouse focus', async function() {
-    await matchesMouse();
+  it('should apply .focus-ring on mouse focus', function() {
+    return matchesMouse();
   });
 });
