@@ -5,42 +5,14 @@ const expect = require('expect');
 const FOCUS_RING_STYLE = 'rgb(255, 0, 0)';
 
 /**
- * Try the given callback function 3 times.
- * Helps prevent StaleElement errors in Selenium.
- * @param {*} callback 
- */
-async function tryUntil(callback) {
-  let retries = 3;
-  let error;
-
-  while(retries > 0) {
-    try {
-      await callback();
-      return;
-    } catch(err) {
-      console.log('Oh No! There was an error!');
-      retries = retries - 1;
-      if (retries > 0) {
-        console.log('Retrying...');
-      }
-      error = err;
-    }
-  }
-
-  throw error;
-}
-
-/**
  * Load a test fixture HTML file to run assertions against.
  * @param {*} file 
  */
 async function fixture(file) {
   let driver = global.__driver;
   await driver.get(`http://localhost:8080/${file}`);
-  await tryUntil(async function() {
-    let body = await driver.findElement(By.css('body'));
-    await body.click();
-  });
+  let body = await driver.findElement(By.css('body'));
+  await body.click();
 }
 
 /**
@@ -50,10 +22,8 @@ async function fixture(file) {
  */
 async function matchesKeyboard(shouldMatch = true) {
   let driver = global.__driver;
-  await tryUntil(async function() {
-    let body = await driver.findElement(By.css('body'));
-    await body.sendKeys(Key.TAB);
-  });
+  let body = await driver.findElement(By.css('body'));
+  await body.sendKeys(Key.TAB);
   let actual = await driver.executeScript(`
     return window.getComputedStyle(document.querySelector('#el')).outlineColor
   `);
@@ -71,10 +41,8 @@ async function matchesKeyboard(shouldMatch = true) {
  */
 async function matchesMouse(shouldMatch = true) {
   let driver = global.__driver;
-  await tryUntil(async function() {
-    let element = await driver.findElement(By.css('#el'));
-    await element.click();
-  });
+  let element = await driver.findElement(By.css('#el'));
+  await element.click();
   let actual = await driver.executeScript(`
     return window.getComputedStyle(document.querySelector('#el')).outlineColor
   `);
